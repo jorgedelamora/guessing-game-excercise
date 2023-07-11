@@ -14,6 +14,7 @@ import COLORS from './constants/colors';
 export default function App() {
 
   const [number, setNumber] = useState(null);
+  const [rounds, setRounds] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
 
   const [fontsLoaded] = useFonts({
@@ -31,17 +32,25 @@ export default function App() {
 
   const handleOnReset = () => {
     setNumber(null);
+    if(isGameOver){
+      setIsGameOver(false);
+      setRounds([]);
+    }
+  }
+
+  const addNewGuessRound = (newGuessRound) => {
+    setRounds((currentRounds) => [...currentRounds, newGuessRound]);
   }
 
   let screen = <StartGame onSubmitNumber={handleOnSubmitNumber} onReset={handleOnReset}/>
 
   if(number && !isGameOver) {
-    screen = <GameScreen userNumber={number} onGameOver={() => setIsGameOver(true)}/>
+    screen = <GameScreen userNumber={number} onGameOver={() => setIsGameOver(true)} onNewGuessRound={addNewGuessRound}/>
   }else if(number && isGameOver){
-    screen = <GameOver />
+    screen = <GameOver onStartNewGame={handleOnReset} roundsNumber={rounds.length} userNumber={number}/>
   }
 
-  screen = <GameOver />
+  // screen = <GameOver onStartNewGame={handleOnReset} roundsNumber={rounds.length} userNumber={number}/>
 
   return (
     <>

@@ -17,9 +17,14 @@ const guessNumber = (min, max, exclude) => {
 }
 
 let minBoundary = 1;
-let maxBoundary = 100
+let maxBoundary = 100;
 
-const GameScreen = ({userNumber, onGameOver}) => {
+const resetBoundries = () => {
+    minBoundary = 1;
+    maxBoundary = 100;
+}
+
+const GameScreen = ({userNumber, onGameOver, onNewGuessRound}) => {
 
     const initialGuess = guessNumber(1, 100, userNumber);
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
@@ -36,6 +41,7 @@ const GameScreen = ({userNumber, onGameOver}) => {
         }
         const newGuess = guessNumber(minBoundary, maxBoundary, currentGuess);
         setCurrentGuess(newGuess);
+        onNewGuessRound(newGuess);
     }
 
     useEffect(() => {
@@ -43,6 +49,10 @@ const GameScreen = ({userNumber, onGameOver}) => {
             onGameOver();
         }
     },[userNumber, currentGuess, onGameOver]);
+
+    useEffect(() => {
+        resetBoundries();
+    },[])
 
   return (
     <View style={styles.container}>
