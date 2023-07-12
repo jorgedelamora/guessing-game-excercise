@@ -45,7 +45,7 @@ export default function App() {
   let screen = <StartGame onSubmitNumber={handleOnSubmitNumber} onReset={handleOnReset}/>
 
   if(number && !isGameOver) {
-    screen = <GameScreen userNumber={number} onGameOver={() => setIsGameOver(true)} onNewGuessRound={addNewGuessRound}/>
+    screen = <GameScreen userNumber={number} onGameOver={() => setIsGameOver(true)} onNewGuessRound={addNewGuessRound} guessRounds={rounds}/>
   }else if(number && isGameOver){
     screen = <GameOver onStartNewGame={handleOnReset} roundsNumber={rounds.length} userNumber={number}/>
   }

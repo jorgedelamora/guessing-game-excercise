@@ -1,11 +1,13 @@
 import {useState, useEffect} from 'react'
-import {View, Text, StyleSheet, Alert } from 'react-native'
+import {View, ScrollView, StyleSheet, Alert } from 'react-native'
 import Button from '../components/Button'
 import Title from '../components/Title'
 import NumberContainer from '../components/NumberContainer'
 import Card from '../components/Card'
 import InstructionText from '../components/InstructionText'
+import GuessLogItem from '../components/GuessLogItem'
 import {Ionicons} from '@expo/vector-icons';
+import COLORS from '../constants/colors'
 
 const guessNumber = (min, max, exclude) => {
     const randomNum = Math.floor(Math.random() * (max - min)) + min;
@@ -24,7 +26,7 @@ const resetBoundries = () => {
     maxBoundary = 100;
 }
 
-const GameScreen = ({userNumber, onGameOver, onNewGuessRound}) => {
+const GameScreen = ({userNumber, onGameOver, onNewGuessRound, guessRounds}) => {
 
     const initialGuess = guessNumber(1, 100, userNumber);
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
@@ -52,6 +54,9 @@ const GameScreen = ({userNumber, onGameOver, onNewGuessRound}) => {
 
     useEffect(() => {
         resetBoundries();
+        if(currentGuess){
+            onNewGuessRound(currentGuess);
+        }
     },[])
 
   return (
@@ -75,9 +80,12 @@ const GameScreen = ({userNumber, onGameOver, onNewGuessRound}) => {
                 </View>
             </View>
         </Card>
-        <View>
-            <Text>log rounds...</Text>
-        </View>
+        <ScrollView style={styles.guessRoundsContainer} alwaysBounceHorizontal alwaysBounceVertical>
+            {guessRounds.map((round, idx) => (
+                <GuessLogItem key={`round-${idx}-${round}`} RoundNumber={idx + 1} guess={round} />
+            ))
+            }
+        </ScrollView>
     </View>
   )
 }
@@ -96,5 +104,13 @@ const styles = StyleSheet.create({
     },
     btn:{
         flex: 1
+    },
+    guessRoundsContainer: {
+        marginTop: 24,
+        marginHorizontal: 16,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        backgroundColor: '#ffffff1a',
+        overflow: 'hidden'
     }
 })
