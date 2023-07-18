@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet} from "react-native"
+import { Text, View, StyleSheet, Dimensions} from "react-native"
 import COLORS from "../constants/colors"
 
 const NumberContainer = ({children}) => {
@@ -9,7 +9,9 @@ const NumberContainer = ({children}) => {
   )
 }
 
-export default NumberContainer
+export default NumberContainer;
+
+const {width, height} = Dimensions.get('window') // window height for ternaries in styles
 
 const styles = StyleSheet.create({
     container: {

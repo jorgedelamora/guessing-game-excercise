@@ -39,7 +39,7 @@ export default function App() {
   }
 
   const addNewGuessRound = (newGuessRound) => {
-    setRounds((currentRounds) => [...currentRounds, newGuessRound]);
+    setRounds((currentRounds) => [newGuessRound ,...currentRounds, ]);
   }
 
   let screen = <StartGame onSubmitNumber={handleOnSubmitNumber} onReset={handleOnReset}/>
